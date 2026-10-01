@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import HeroScroll from "@/components/HeroScroll";
 import Navbar from "@/components/Navbar";
 
@@ -6,6 +7,7 @@ export default function Home() {
     <main>
       <Navbar />
       <HeroScroll />
+      <Footer />
     </main>
   );
 }

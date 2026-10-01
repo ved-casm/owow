@@ -24,7 +24,7 @@ const suisse = localFont({
   ],
 });
 
-// Mono (also used for digits — the Suisse subset has no numerals)
+// Mono (also used for digits - the Suisse subset has no numerals)
 const jetbrainsMono = localFont({
   variable: "--nf-mono",
   display: "swap",

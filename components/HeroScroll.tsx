@@ -3,14 +3,12 @@
 import {
   motion,
   useMotionValue,
-  useMotionValueEvent,
   useScroll,
   useTransform,
   type MotionValue,
 } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import BrandCarousel from "./BrandCarousel";
-import PlayableVideo from "./PlayableVideo";
 import RollText from "./RollText";
 
 const EASE = [0.19, 1, 0.22, 1] as const;
@@ -18,7 +16,7 @@ const EASE = [0.19, 1, 0.22, 1] as const;
 /**
  * Scroll progress `p` = scrollY / viewport height.
  * Each hero line is inside its own mask and slides up out of it over its
- * own slice of `p` — the hero itself never moves (it's sticky).
+ * own slice of `p` - the hero itself never moves (it's sticky).
  * Ranges were measured frame-by-frame from the reference recording.
  */
 const EXIT = {
@@ -28,38 +26,30 @@ const EXIT = {
   headline1: [0.15, 0.38],
   desc2: [0.18, 0.32],
   brands: [0.28, 0.42],
-  headline2: [0.34, 0.55],
+  headline2: [0.15, 0.38], // leaves together with headline1
 } as const;
-
-/** background video → image crossfade point */
-const SWAP_AT = 0.6;
-/** showreel title moves at (1 - this) of scroll speed */
-const TITLE_PARALLAX = 0.2;
 
 export default function HeroScroll() {
   const { scrollY } = useScroll();
   const vh = useMotionValue(900);
   const p = useTransform(() => scrollY.get() / vh.get());
-  const [showImage, setShowImage] = useState(false);
 
   useEffect(() => {
     const onResize = () => vh.set(window.innerHeight);
-    onResize(); // also re-evaluates `p` → swap state if we load mid-page
+    onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, [scrollY, vh]);
-
-  useMotionValueEvent(p, "change", (v) => setShowImage(v > SWAP_AT));
-
-  // parallax for the showreel title (capped so it never drops below the card)
-  const titleY = useTransform(
-    () => Math.min(scrollY.get(), vh.get() * 1.4) * TITLE_PARALLAX,
-  );
+  }, [vh]);
 
   return (
-    <div className="relative">
-      {/* ================= Sticky background + hero content ================= */}
-      <div className="sticky top-0 z-0 -mb-[100svh] h-svh overflow-hidden bg-[#c9cccf]">
+    /*
+     * Content layer that slides up over the sticky footer.
+     * The hero stays pinned for the first 60% of a screen (while its lines
+     * exit), then the whole rounded card scrolls away to reveal the footer.
+     * `overflow-clip` (not hidden) keeps `position: sticky` working.
+     */
+    <div className="relative z-10 overflow-clip rounded-b-[28px] bg-black">
+      <div className="sticky top-0 -mb-[100svh] h-svh overflow-hidden bg-[#c9cccf]">
         <motion.div
           className="absolute inset-0"
           initial={{ scale: 1.12 }}
@@ -77,58 +67,14 @@ export default function HeroScroll() {
             <source src="/video/hero-tie.webm" type='video/webm; codecs="av01.0.08M.08"' />
             <source src="/video/hero-tie.mp4" type="video/mp4" />
           </video>
-          {/* dark overlay on the video only — the showreel image stays clean */}
           <div className="pointer-events-none absolute inset-0 bg-black/70" />
-        </motion.div>
-
-        {/* image that replaces the video once the showreel comes in */}
-        <motion.div
-          className="absolute inset-0 bg-[#b9bdc1]"
-          initial={false}
-          animate={{ opacity: showImage ? 1 : 0, scale: showImage ? 1 : 1.06 }}
-          transition={{ duration: 0.9, ease: [0.4, 0, 0.2, 1] }}
-        >
-          {/* AVIF where supported, JPEG everywhere else */}
-          <picture>
-            <source srcSet="/img/owow-human.avif" type="image/avif" />
-            <img
-              src="/img/owow-human.jpg"
-              alt=""
-              loading="lazy"
-              decoding="async"
-              className="h-full w-full object-cover object-center"
-            />
-          </picture>
         </motion.div>
 
         <HeroContent p={p} />
       </div>
 
-      {/* spacer that gives the sticky hero its first screen of scroll */}
-      <div className="h-svh" aria-hidden />
-
-      {/* ================= Showreel ================= */}
-      <section id="showreel" className="relative z-10 pb-[100px] pt-[41svh]">
-        <motion.h2
-          style={{ y: titleY }}
-          className="absolute left-1/2 top-[9svh] z-0 -translate-x-1/2 whitespace-nowrap text-center text-[clamp(44px,5.8vw,112px)] font-serif leading-[1.02] tracking-[-0.035em] text-paper"
-        >
-          <LetterReveal text="We’re O’WOW." />
-        </motion.h2>
-
-        <div className="relative z-10 mx-auto aspect-[3/2] w-[88vw] overflow-hidden rounded-[8px] bg-neutral-300 md:w-[42vw]">
-          <PlayableVideo
-            src="/video/owow.mp4"
-            webm="/video/owow.webm"
-            poster="/img/card-poster.jpg"
-            iconSize={90}
-            className="h-full w-full"
-          />
-        </div>
-      </section>
-
-      {/* ================= Placeholder for the rest of the page ================= */}
-      <section className="relative z-20 min-h-screen bg-white" />
+      {/* scroll room: 60svh pinned for the line exits, then the card leaves */}
+      <div className="h-[160svh]" aria-hidden />
     </div>
   );
 }
@@ -222,27 +168,6 @@ function Line({
         <motion.div style={{ y }}>{children}</motion.div>
       </motion.div>
     </div>
-  );
-}
-
-/** Per-letter rise: opacity 0, y 60px, scale 0.9 → rest, staggered. */
-function LetterReveal({ text }: { text: string }) {
-  return (
-    <span aria-label={text}>
-      {Array.from(text).map((ch, i) => (
-        <motion.span
-          key={i}
-          aria-hidden
-          className="inline-block whitespace-pre"
-          initial={{ opacity: 0, y: 60, scale: 0.9 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.9, delay: i * 0.03, ease: EASE }}
-        >
-          {ch}
-        </motion.span>
-      ))}
-    </span>
   );
 }
 

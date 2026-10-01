@@ -6,7 +6,7 @@ import * as THREE from "three";
 /**
  * "o'wow" wordmark rendered with three.js.
  * The letters sit in a dim grey and soft light bands sweep across them
- * left → right, one after another — the next band enters before the
+ * left → right, one after another - the next band enters before the
  * previous one has left, like torches passing over dark text.
  *
  * The canvas is rendered at a higher resolution than its CSS size so the
