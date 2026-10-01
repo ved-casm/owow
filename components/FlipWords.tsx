@@ -26,10 +26,13 @@ export default function FlipWords({
   const longest = words.reduce((a, b) => (b.length > a.length ? b : a), "");
 
   return (
+    <>
+    {/* read once ("environments, tasks, motion"); the flipping word is decorative */}
+    <span className="sr-only">{words.join(", ")}</span>
     <span
       className="relative inline-grid align-bottom"
       style={{ perspective: "600px" }}
-      aria-live="polite"
+      aria-hidden
     >
       {/* invisible sizer - reserves the longest word's width */}
       <span className="invisible col-start-1 row-start-1" aria-hidden>
@@ -49,5 +52,6 @@ export default function FlipWords({
         </motion.span>
       </AnimatePresence>
     </span>
+    </>
   );
 }

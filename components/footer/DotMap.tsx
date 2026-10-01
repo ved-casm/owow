@@ -61,6 +61,10 @@ export default function DotMap({ active }: { active: boolean }) {
       className="pointer-events-none relative w-full"
       style={{ aspectRatio: `${WORLD.cols} / ${WORLD.rows}` }}
     >
+      {/* screen readers get the list once; the animated map is decorative */}
+      <p className="sr-only">
+        Places we capture data in: {PLACES.map((p) => `${p.name}, ${p.country}`).join("; ")}.
+      </p>
       <svg viewBox={`0 0 ${WORLD.cols} ${WORLD.rows}`} className="absolute inset-0 h-full w-full" aria-hidden>
         {dots.map((d, k) => (
           <circle key={k} cx={d.x} cy={d.y} r={0.28} fill="rgb(255 255 255 / 0.14)" />
@@ -75,7 +79,7 @@ export default function DotMap({ active }: { active: boolean }) {
         </g>
       </svg>
 
-      {/* animated tooltip: just a tiny photo of the landmark (name is for screen readers only) */}
+      {/* animated tooltip: just a tiny photo of the landmark */}
       <div
         key={cur.name}
         className="map-tip absolute"
@@ -86,15 +90,14 @@ export default function DotMap({ active }: { active: boolean }) {
           translate: `${flipX ? "calc(-100% - 14px)" : "14px"} ${flipY ? "10px" : "calc(-100% - 10px)"}`,
           transformOrigin: `${flipX ? "right" : "left"} ${flipY ? "top" : "bottom"}`,
         }}
-        role="status"
-        aria-live="polite"
+        aria-hidden
       >
         <div className="w-[80px] rounded-[9px] border border-white/15 bg-ink/80 p-1 shadow-[0_8px_24px_rgba(0,0,0,0.45)] backdrop-blur-md sm:w-[104px] sm:rounded-[10px]">
           <picture>
             <source srcSet={`/img/places/${cur.photo}.avif`} type="image/avif" />
             <img
               src={`/img/places/${cur.photo}.jpg`}
-              alt={`${cur.name}, ${cur.country}`}
+              alt=""
               className="block h-[50px] w-full rounded-[6px] object-cover sm:h-[66px] sm:rounded-[7px]"
               draggable={false}
             />

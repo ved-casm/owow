@@ -36,6 +36,8 @@ export default function BrandCarousel({
     const step = 360 / brands.length;
     let raf = 0;
     const start = performance.now();
+    // reduced motion: lay the items out once, facing front, and don't spin
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const loop = (now: number) => {
       const turn = (((now - start) / 1000) * 360) / SECONDS_PER_TURN;
@@ -50,7 +52,7 @@ export default function BrandCarousel({
         el.style.opacity = opacity.toFixed(3);
         el.style.filter = `blur(${blur.toFixed(2)}px)`;
       });
-      raf = requestAnimationFrame(loop);
+      if (!calm) raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);

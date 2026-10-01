@@ -10,6 +10,8 @@ import { useEffect } from "react";
  */
 export default function SmoothScroll() {
   useEffect(() => {
+    // reduced motion: keep the browser's native (instant) scrolling
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const lenis = new Lenis({
       autoRaf: true,
       lerp: 0.09,
