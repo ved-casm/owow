@@ -52,7 +52,7 @@ export default function PartnersPage() {
             key={c.name}
             className="grid grid-cols-[auto_1fr] items-baseline gap-x-5 border-b border-white/10 py-7 sm:grid-cols-[auto_auto_1fr] sm:gap-x-7"
           >
-            <span className="font-mono text-[12px] tracking-[0.1em] text-white/40">
+            <span className="text-meta font-medium tracking-[0.06em] text-white/50">
               {String(i + 1).padStart(2, "0")}
             </span>
             <c.icon
@@ -61,10 +61,10 @@ export default function PartnersPage() {
               className="hidden h-6 w-6 translate-y-1 self-start text-white/80 sm:block"
             />
             <div>
-              <p className="font-serif text-[clamp(26px,3vw,36px)] leading-[1.1] tracking-[-0.03em] text-white">
+              <p className="font-serif text-display-sm tracking-[-0.03em] text-white">
                 {c.name}
               </p>
-              <p className="mt-2 text-[17px] leading-[1.5] text-white/60">{c.what}</p>
+              <p className="mt-2 text-body text-white/70">{c.what}</p>
             </div>
           </li>
         ))}

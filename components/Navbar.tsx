@@ -69,7 +69,7 @@ export default function Navbar() {
   return (
     <nav className="fixed left-1/2 top-[31px] z-50 -translate-x-1/2">
       <motion.div
-        className="relative overflow-hidden bg-black"
+        className="relative overflow-hidden border border-white/15 bg-ink"
         initial={false}
         // MENU DISABLED - original:
         // animate={{
@@ -146,7 +146,7 @@ export default function Navbar() {
                   href={`#${l.toLowerCase().replaceAll(" ", "-")}`}
                   tabIndex={open ? 0 : -1}
                   onClick={() => setOpen(false)}
-                  className="text-[14px] font-medium uppercase leading-[19px] tracking-[0.01em] text-white"
+                  className="text-ui font-medium uppercase tracking-[0.01em] text-white"
                 >
                   <RollText text={l.toUpperCase()} />
                 </a>
@@ -181,7 +181,7 @@ export default function Navbar() {
                 iconSize={36}
                 className="h-full w-full"
               >
-                <span className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 text-[13px] font-medium tracking-[-0.01em] text-white">
+                <span className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 text-meta font-medium tracking-[-0.01em] text-white">
                   Our Story
                 </span>
               </PlayableVideo>
@@ -201,12 +201,12 @@ export default function Navbar() {
             <div className="h-px w-full bg-white/10" />
             <div className="mt-[19px] flex items-center justify-between">
               {!mobile && (
-                <p className="text-[13px] uppercase leading-[18px] tracking-[0.01em] text-white/55">
+                <p className="text-meta uppercase tracking-[0.01em] text-white/50">
                   Data intelligence for physical AI
                 </p>
               )}
               <div className="flex items-center gap-4">
-                <span className="flex items-center gap-2 text-[13px] font-medium leading-none tracking-[-0.01em] text-white/55">
+                <span className="flex items-center gap-2 text-meta font-medium leading-none tracking-[-0.01em] text-white/50">
                   <span className="h-1 w-1 rounded-full bg-cream" />
                   Time Until Launch
                 </span>

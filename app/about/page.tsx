@@ -15,7 +15,7 @@ export default function AboutPage() {
     <TextPage label="About owow">
       <Title>
         owow is a data intelligence platform for ai labs -{" "}
-        <em className="italic text-white/60">
+        <em className="italic text-white/50">
           built around the hardest data problem in ai: the physical world.
         </em>
       </Title>
@@ -35,7 +35,7 @@ export default function AboutPage() {
         </p>
 
         {/* one "real", the noun after it flips through the three */}
-        <p className="font-serif text-[clamp(26px,3vw,36px)] leading-[1.15] tracking-[-0.03em] text-white">
+        <p className="font-serif text-display-sm tracking-[-0.03em] text-white">
           <Hl>real</Hl> <FlipWords words={["environments", "tasks", "motion"]} />
         </p>
 
@@ -47,7 +47,7 @@ export default function AboutPage() {
           {HANDLED.map((h) => (
             <li
               key={h}
-              className="rounded-full border border-white/15 px-4 py-1.5 font-mono text-[13px] uppercase tracking-[0.08em] text-white"
+              className="rounded-full border border-white/10 px-4 py-1.5 text-meta font-medium uppercase tracking-[0.08em] text-white"
             >
               {h}
             </li>
@@ -57,7 +57,7 @@ export default function AboutPage() {
 
       <Closing>
         so research teams can spend their time on <Hl>the model</Hl>,{" "}
-        <span className="text-white/35">not the pipeline.</span>
+        <span className="text-white/50">not the pipeline.</span>
       </Closing>
     </TextPage>
   );
