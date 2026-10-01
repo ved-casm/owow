@@ -40,7 +40,7 @@ const STATIC_4: Place[] = [{ key: "india", name: "Taj Mahal, India" }];
 const LINKS = [
   { label: "Manifesto", href: "/manifesto" },
   { label: "Careers", href: "#careers" },
-  { label: "Partners", href: "/partners" },
+  { label: "Partners", href: "#partners" },
 ];
 
 // TODO: real profile URLs / address
