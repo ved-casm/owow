@@ -36,6 +36,9 @@
  * Text colours: white (primary) · white/70 (secondary) · white/50 (muted).
  */
 
+/* short viewports (landscape phones) — used by the hero */
+@custom-variant short (@media (max-height: 500px));
+
 /* hide the scrollbar everywhere - scrolling itself still works */
 html {
   scrollbar-width: none;
