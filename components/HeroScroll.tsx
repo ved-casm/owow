@@ -21,10 +21,9 @@ const EASE = [0.19, 1, 0.22, 1] as const;
  */
 const EXIT = {
   kicker: [0.03, 0.14],
-  desc1: [0.07, 0.18],
+  desc: [0.07, 0.2],
   cta: [0.12, 0.3],
   headline1: [0.15, 0.38],
-  desc2: [0.18, 0.32],
   brands: [0.28, 0.42],
   headline2: [0.15, 0.38], // leaves together with headline1
 } as const;
@@ -48,21 +47,25 @@ export default function HeroScroll() {
      * exit), then the whole rounded card scrolls away to reveal the footer.
      * `overflow-clip` (not hidden) keeps `position: sticky` working.
      */
-    <div className="relative z-10 overflow-clip rounded-b-[28px] bg-black">
-      <div className="sticky top-0 -mb-[100svh] h-svh overflow-hidden bg-[#c9cccf]">
+    <div className="relative z-10 overflow-clip rounded-b-[28px] border-b border-white/15 bg-ink">
+      <div className="sticky top-0 -mb-[100svh] h-svh overflow-hidden bg-ink">
         <motion.div
           className="absolute inset-0"
           initial={{ scale: 1.12 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.8, ease: EASE }}
         >
-          {/* AV1 WebM where supported (smallest), H.264 MP4 everywhere else */}
+          {/*
+            AV1 WebM where supported (smallest), H.264 MP4 everywhere else.
+            Portrait screens can't fit both people in a 16:9 frame, so the crop
+            shifts left to keep the man (and the O'WOW suit) in view.
+          */}
           <video
             autoPlay
             muted
             loop
             playsInline
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover portrait:object-[22%_50%]"
           >
             <source src="/video/hero-tie.webm" type='video/webm; codecs="av01.0.08M.08"' />
             <source src="/video/hero-tie.mp4" type="video/mp4" />
@@ -83,14 +86,16 @@ export default function HeroScroll() {
 
 function HeroContent({ p }: { p: MotionValue<number> }) {
   return (
-    <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center">
+    // top padding = navbar height, so the pill never covers the first line
+    <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 pb-6 pt-24 text-center">
       <Line p={p} range={EXIT.kicker} delay={0.25}>
-        <p className="flex items-center gap-3 text-[clamp(16px,1.25vw,23px)] font-medium leading-[1.2] tracking-[-0.02em] text-white">
+        {/* frosted, see-through pill (backdrop blur over the video) */}
+        <p className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-5 py-2 text-body font-medium tracking-[-0.01em] text-white backdrop-blur-md">
           We teach robots to tie the knot.
         </p>
       </Line>
 
-      <h1 className="mt-[clamp(24px,4svh,44px)] font-serif text-[clamp(46px,6.4vw,124px)] font-normal leading-[1.0] tracking-[-0.035em] text-white">
+      <h1 className="mt-[clamp(18px,4svh,44px)] font-serif text-hero font-normal tracking-[-0.035em] text-white">
         <Line p={p} range={EXIT.headline1} delay={0.35} tall>
           Data Intelligence
         </Line>
@@ -99,21 +104,20 @@ function HeroContent({ p }: { p: MotionValue<number> }) {
         </Line>
       </h1>
 
-      <div className="mt-[clamp(20px,3.4svh,38px)] text-[clamp(15px,1.1vw,20px)] leading-[1.45] tracking-[-0.01em] text-white/90">
-        <Line p={p} range={EXIT.desc1} delay={0.55}>
-          Robots learn from what they’re shown. We know what’s worth showing,
-        </Line>
-        <Line p={p} range={EXIT.desc2} delay={0.6}>
-          then capture, structure, and verify it at global scale.
-        </Line>
-      </div>
+      {/* one paragraph that wraps naturally (balanced) instead of a forced break */}
+      <Line p={p} range={EXIT.desc} delay={0.55} className="mt-[clamp(16px,3.4svh,38px)]">
+        <p className="mx-auto max-w-[36em] text-balance text-body tracking-[-0.01em] text-white/70">
+          Robots learn from what they’re shown. We know what’s worth showing, then
+          capture, structure, and verify it at global scale.
+        </p>
+      </Line>
 
-      <Line p={p} range={EXIT.cta} delay={0.7} className="mt-[clamp(24px,3.8svh,40px)]">
+      <Line p={p} range={EXIT.cta} delay={0.7} className="mt-[clamp(20px,3.8svh,40px)]">
         <a
-          href="#book-a-call"
-          className="roll-parent flex h-[52px] items-center gap-2 rounded-full bg-[#141414] px-7 text-[14px] font-medium uppercase tracking-[0.01em] text-white transition-colors hover:bg-black"
+          href="#talk-to-a-founder"
+          className="roll-parent flex h-[52px] items-center gap-2 rounded-full bg-ink px-7 text-ui font-medium uppercase tracking-[0.01em] text-white ring-1 ring-white/10 transition-colors hover:bg-black"
         >
-          <RollText text="BOOK A CALL" />
+          <RollText text="TALK TO A FOUNDER" />
           <RollArrow />
         </a>
       </Line>
@@ -122,7 +126,7 @@ function HeroContent({ p }: { p: MotionValue<number> }) {
         p={p}
         range={EXIT.brands}
         delay={0.85}
-        className="mt-[clamp(28px,5svh,60px)] w-full max-w-[640px]"
+        className="mt-[clamp(20px,5svh,60px)] w-full max-w-[640px]"
       >
         <BrandCarousel />
       </Line>

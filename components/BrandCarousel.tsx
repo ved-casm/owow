@@ -76,7 +76,7 @@ export default function BrandCarousel({
           >
             <span className="flex items-center gap-2.5 text-white">
               <b.icon aria-hidden className="h-[22px] w-[22px] shrink-0" strokeWidth={1.75} />
-              <span className="text-[21px] font-medium tracking-[-0.02em]">{b.name}</span>
+              <span className="text-body font-medium tracking-[-0.01em]">{b.name}</span>
             </span>
           </div>
         ))}

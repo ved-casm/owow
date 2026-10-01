@@ -75,6 +75,7 @@ const fragment = /* glsl */ `
   precision highp float;
   uniform sampler2D uMask;
   uniform float uTime;
+  uniform float uBase;
   varying vec2 vUv;
 
   void main() {
@@ -89,7 +90,7 @@ const fragment = /* glsl */ `
     float core = exp(-(d * d) / 0.012);   // hot centre of the torch
     float halo = exp(-(d * d) / 0.060);   // soft spill around it
 
-    float base = 0.42;
+    float base = uBase;
     float l = base + halo * 0.30 + core * 0.70;
     vec3 col = vec3(min(l, 1.0));
 
@@ -102,6 +103,8 @@ type Props = {
   height?: number;
   /** extra resolution headroom so the logo can be CSS-scaled up crisply */
   upscale?: number;
+  /** brightness of the letters between light sweeps (0–1) */
+  base?: number;
   className?: string;
 };
 
@@ -109,6 +112,7 @@ export default function ShimmerLogo({
   width = 90,
   height = 21,
   upscale = 2.2,
+  base = 0.42,
   className,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -142,6 +146,7 @@ export default function ShimmerLogo({
       uniforms: {
         uMask: { value: texture },
         uTime: { value: 0 },
+        uBase: { value: base },
       },
     });
 
@@ -181,7 +186,7 @@ export default function ShimmerLogo({
       texture.dispose();
       renderer.dispose();
     };
-  }, [width, height, upscale]);
+  }, [width, height, upscale, base]);
 
   return (
     <canvas

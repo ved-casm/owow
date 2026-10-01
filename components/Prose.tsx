@@ -3,8 +3,9 @@ import Navbar from "./Navbar";
 
 /**
  * Shared building blocks for the text pages (manifesto, about, partners):
- * dark page, narrow column, Exposure for display type, Suisse for body,
- * JetBrains Mono for small labels, soft highlight chips for key phrases.
+ * dark page, narrow column, Exposure for display type, Suisse for all other
+ * text, soft highlight chips for key phrases. Sizes / colours come from the
+ * tokens in globals.css so every page (and the footer) stays consistent.
  */
 
 /** highlighted phrase - soft chip (see .hl in globals.css) */
@@ -28,9 +29,9 @@ export function TextPage({
     <main className="text-white">
       <Navbar />
       {/* rounded content card that slides up off the pinned footer (same as home) */}
-      <div className="relative z-10 min-h-svh rounded-b-[28px] bg-[#0b0b0b]">
+      <div className="relative z-10 min-h-svh rounded-b-[28px] border-b border-white/15 bg-ink">
         <article className="mx-auto max-w-[832px] px-6 pb-32 pt-40 md:pt-48">
-          <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-white/45">
+          <p className="text-meta font-medium uppercase tracking-[0.14em] text-white/50">
             {label}
           </p>
           {children}
@@ -43,7 +44,7 @@ export function TextPage({
 
 export function Body({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mt-14 space-y-8 text-[18px] leading-[1.6] tracking-[-0.01em] text-white/70">
+    <div className="mt-14 space-y-8 text-body tracking-[-0.01em] text-white/70">
       {children}
     </div>
   );
@@ -51,7 +52,7 @@ export function Body({ children }: { children: React.ReactNode }) {
 
 export function Title({ children }: { children: React.ReactNode }) {
   return (
-    <h1 className="mt-6 font-serif text-[clamp(38px,5vw,64px)] font-normal leading-[1.06] tracking-[-0.035em]">
+    <h1 className="mt-6 font-serif text-display font-normal tracking-[-0.035em]">
       {children}
     </h1>
   );
@@ -59,7 +60,7 @@ export function Title({ children }: { children: React.ReactNode }) {
 
 export function Closing({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mt-20 font-serif text-[clamp(32px,4vw,48px)] leading-[1.1] tracking-[-0.03em]">
+    <p className="mt-20 font-serif text-display-md tracking-[-0.03em]">
       {children}
     </p>
   );
@@ -67,7 +68,7 @@ export function Closing({ children }: { children: React.ReactNode }) {
 
 export function Quote({ children }: { children: React.ReactNode }) {
   return (
-    <blockquote className="border-l-2 border-white/25 pl-6 font-serif text-[clamp(22px,2.2vw,28px)] italic leading-[1.35] tracking-[-0.02em] text-white">
+    <blockquote className="border-l-2 border-white/25 pl-6 font-serif text-display-sm italic tracking-[-0.02em] text-white">
       {children}
     </blockquote>
   );

@@ -1,13 +1,40 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Suisse subset has no digits / some punctuation → fall back per glyph */
-  --font-sans: var(--nf-sans), "Helvetica Neue", Arial, sans-serif;
+  /* ---------- Fonts: Exposure = display, Suisse = all other text ---------- */
+  /* Suisse subset lacks digits / © / & / ' / : — Inter fills just those glyphs */
+  --font-sans: var(--nf-sans), var(--nf-fill), "Helvetica Neue", Arial, sans-serif;
   --font-serif: var(--nf-serif), Georgia, serif;
   --font-mono: var(--nf-mono), ui-monospace, monospace;
+
+  /* ---------- Colours ---------- */
+  --color-ink: #0b0b0b; /* every dark surface: page, navbar, footer, buttons */
   --color-cream: #fffdbd;
   --color-paper: #f7f6f3;
+
+  /* ---------- Text sizes (Suisse) ---------- */
+  --text-meta: 13px; /* labels, legal, column titles */
+  --text-meta--line-height: 1.4;
+  --text-ui: 15px; /* links, buttons */
+  --text-ui--line-height: 1.3;
+  --text-body: clamp(16px, 0.6vw + 14px, 18px); /* paragraphs, hero copy */
+  --text-body--line-height: 1.6;
+
+  /* ---------- Display sizes (Exposure) ---------- */
+  --text-hero: clamp(34px, min(10.4vw, 4.95vw + 20px), 124px);
+  --text-hero--line-height: 1;
+  --text-display: clamp(38px, 5vw, 64px); /* page titles */
+  --text-display--line-height: 1.06;
+  --text-display-md: clamp(28px, min(9vw, 2.2vw + 24px), 56px); /* footer line, page closings */
+  --text-display-md--line-height: 1.06;
+  --text-display-sm: clamp(24px, 3vw, 36px); /* list items, quotes */
+  --text-display-sm--line-height: 1.15;
 }
+
+/*
+ * Weights: 400 body · 500 links / buttons / labels / highlights · 600 brand.
+ * Text colours: white (primary) · white/70 (secondary) · white/50 (muted).
+ */
 
 /* hide the scrollbar everywhere - scrolling itself still works */
 html {
@@ -25,7 +52,7 @@ body::-webkit-scrollbar {
 
 html,
 body {
-  background: #000;
+  background: var(--color-ink);
   color: #fff;
   font-family: var(--font-sans);
 }
@@ -66,4 +93,46 @@ body {
   background-color: rgba(255, 255, 255, 0.09);
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
+}
+/* ---------- Footer map: ping ring + tooltip ---------- */
+.map-ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: map-ping 1.6s ease-out forwards;
+}
+@keyframes map-ping {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(7);
+    opacity: 0;
+  }
+}
+/* pops in from the dot, holds, then fades — one cycle per ping (2.2s) */
+.map-tip {
+  animation: map-tip 2.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+@keyframes map-tip {
+  0% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  14%,
+  82% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-ping,
+  .map-tip {
+    animation: none;
+  }
 }

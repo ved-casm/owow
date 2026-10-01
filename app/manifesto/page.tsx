@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Hl, TextPage } from "@/components/Prose";
+import { Body, Closing, Em, Hl, Quote, TextPage, Title } from "@/components/Prose";
 
 export const metadata: Metadata = {
   title: "Manifesto - O’WOW",
@@ -10,13 +10,12 @@ export const metadata: Metadata = {
 export default function ManifestoPage() {
   return (
     <TextPage label="Manifesto">
-
-      <h1 className="mt-6 font-serif text-[clamp(38px,5vw,64px)] font-normal leading-[1.06] tracking-[-0.035em]">
+      <Title>
         physical ai doesn’t have a data problem the way language models did.{" "}
-        <em className="italic text-white/60">it has a bigger one.</em>
-      </h1>
+        <em className="italic text-white/50">it has a bigger one.</em>
+      </Title>
 
-      <div className="mt-14 space-y-8 text-[18px] leading-[1.6] tracking-[-0.01em] text-white/70">
+      <Body>
         <p>
           text was already sitting on the internet, waiting to be scraped.
           <br />
@@ -31,7 +30,7 @@ export default function ManifestoPage() {
           <br />
           by someone, somewhere, doing something real -
           <br />
-          and there’s <em className="font-serif text-[1.12em] italic text-white">no shortcut</em>{" "}
+          and there’s <Em>no shortcut</Em>{" "}
           for that.
         </p>
 
@@ -46,25 +45,25 @@ export default function ManifestoPage() {
           train on.
         </p>
 
-        <blockquote className="border-l-2 border-white/25 pl-6 font-serif text-[clamp(22px,2.2vw,28px)] italic leading-[1.35] tracking-[-0.02em] text-white">
+        <Quote>
           we think the next generation of ai won’t be won by whoever has the
           biggest model.
-        </blockquote>
+        </Quote>
 
         <p>
           it’ll be won by whoever has <Hl>the best data</Hl> -
           <br />
           and the best data comes from doing the{" "}
-          <em className="font-serif text-[1.12em] italic text-white">unglamorous</em> work of
+          <Em>unglamorous</Em> work of
           collecting it right,
           <br />
           at a <Hl>scale</Hl> nobody else is willing to do.
         </p>
-      </div>
+      </Body>
 
-      <p className="mt-20 font-serif text-[clamp(32px,4vw,48px)] leading-[1.1] tracking-[-0.03em]">
+      <Closing>
         that’s what <Hl>o&apos;wow</Hl> is for.
-      </p>
+      </Closing>
     </TextPage>
   );
 }

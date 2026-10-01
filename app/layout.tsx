@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
@@ -24,10 +25,20 @@ const suisse = localFont({
   ],
 });
 
-// Mono (also used for digits - the Suisse subset has no numerals)
+// Glyph fill for Suisse: the subset has no digits, ©, &, ' or : — Inter
+// (a close neo-grotesk) supplies only those, so numbers look the same on
+// every OS instead of dropping to Arial / Helvetica.
+const fill = Inter({
+  variable: "--nf-fill",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// Mono — only used by the (currently disabled) menu countdown
 const jetbrainsMono = localFont({
   variable: "--nf-mono",
   display: "swap",
+  preload: false,
   weight: "100 800",
   src: "../public/fonts/70bc3e132a0a741e-s.p.1409xf.ylxg8g.woff2",
 });
@@ -42,7 +53,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${exposure.variable} ${suisse.variable} ${jetbrainsMono.variable} antialiased`}
+      className={`${exposure.variable} ${suisse.variable} ${fill.variable} ${jetbrainsMono.variable} antialiased`}
     >
       <body>
         <SmoothScroll />
