@@ -1,43 +1,31 @@
 "use client";
 
+import { Bot, Globe, Mic, Sparkles, type LucideIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 /**
- * Logos sit on a 3D cylinder that turns a full 360°.
- * Front logos are big and bright, logos at the edges get squashed by the
+ * Focus areas sit on a 3D cylinder that turns a full 360°.
+ * Front items are bright, items at the edges get squashed by the
  * perspective, and the ones that go around the back stay visible (mirrored)
  * but very faint and slightly blurred.
- *
- * Logos live in /public/img/brands. Everything is shown in white (same as
- * the type): dark SVGs are inverted, icon-only marks get their name beside.
  */
-export type Brand = {
-  name: string;
-  src: string;
-  /** rendered height of the <img> in px */
-  height: number;
-  /** negative vertical margin to trim empty space in the SVG's viewBox */
-  trim?: number;
-  /** invert a black logo to white */
-  invert?: boolean;
-  /** show the brand name next to an icon-only logo */
-  label?: boolean;
-};
+export type Brand = { name: string; icon: LucideIcon };
 
-const LOGOS: Brand[] = [
-  { name: "Figure", src: "/img/brands/Figure.svg", height: 28, invert: true, label: true },
-  { name: "Fish Audio", src: "/img/brands/Fish-Audio.svg", height: 84, trim: -28, invert: true, label: true },
-  { name: "Ringg.AI", src: "/img/brands/Ring.svg", height: 28 },
+const AREAS: Brand[] = [
+  { name: "Humanoid Robotics", icon: Bot },
+  { name: "World Models", icon: Globe },
+  { name: "Frontier AI Models", icon: Sparkles },
+  { name: "Voice & Conversational AI", icon: Mic },
 ];
 
-// only three brands → go round twice so the cylinder isn't sparse
-export const BRANDS: Brand[] = [...LOGOS, ...LOGOS];
+// four items → go round twice so the cylinder isn't sparse
+export const BRANDS: Brand[] = [...AREAS, ...AREAS];
 
 const SECONDS_PER_TURN = 30;
 
 export default function BrandCarousel({
   brands = BRANDS,
-  radius = 300,
+  radius = 380,
 }: {
   brands?: Brand[];
   radius?: number;
@@ -72,7 +60,7 @@ export default function BrandCarousel({
     <div
       className="relative mx-auto h-[60px] w-full max-w-[600px]"
       style={{ perspective: 1100 }}
-      aria-label="Trusted by"
+      aria-label="Focus areas"
     >
       <div
         className="absolute left-1/2 top-1/2 h-0 w-0"
@@ -86,24 +74,9 @@ export default function BrandCarousel({
             }}
             className="absolute left-0 top-0 flex items-center justify-center whitespace-nowrap will-change-transform"
           >
-            <span className="flex items-center gap-2.5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={b.src}
-                alt={b.label ? "" : b.name}
-                draggable={false}
-                className="w-auto max-w-none select-none"
-                style={{
-                  height: b.height,
-                  margin: b.trim ? `${b.trim}px 0` : undefined,
-                  filter: b.invert ? "invert(1)" : undefined,
-                }}
-              />
-              {b.label && (
-                <span className="text-[26px] font-semibold tracking-[-0.03em] text-white">
-                  {b.name}
-                </span>
-              )}
+            <span className="flex items-center gap-2.5 text-white">
+              <b.icon aria-hidden className="h-[22px] w-[22px] shrink-0" strokeWidth={1.75} />
+              <span className="text-[21px] font-medium tracking-[-0.02em]">{b.name}</span>
             </span>
           </div>
         ))}

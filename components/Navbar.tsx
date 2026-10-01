@@ -1,68 +1,83 @@
 "use client";
 
 import { motion, type Transition } from "motion/react";
-import { useEffect, useRef, useState } from "react";
-import Countdown from "./Countdown";
-import PlayableVideo, { type PlayableVideoHandle } from "./PlayableVideo";
-import RollText from "./RollText";
+import { useState } from "react";
+// MENU DISABLED - restore these imports together with the menu code below
+// import { useEffect, useRef } from "react";
+// import Countdown from "./Countdown";
+// import PlayableVideo, { type PlayableVideoHandle } from "./PlayableVideo";
+// import RollText from "./RollText";
 import ShimmerLogo from "./ShimmerLogo";
 
-const LINKS = [
-  "Solutions",
-  "Datasets",
-  "Research",
-  "About",
-  "Careers",
-  "Contact",
-  "Book a call",
-];
+/*
+ * MENU DISABLED: opening / closing the navbar is switched off for now.
+ * The toggle button still renders (hover animation only) but does nothing.
+ * Everything needed to bring the menu back is kept in comments in this file;
+ * search for "MENU DISABLED" and uncomment those blocks.
+ */
+
+// const LINKS = [
+//   "Solutions",
+//   "Datasets",
+//   "Research",
+//   "About",
+//   "Careers",
+//   "Contact",
+//   "Book a call",
+// ];
 
 const CLOSED = { w: 190, h: 52 };
-const OPEN = { w: 720, h: 463 };
-const MOBILE_OPEN_H = 430;
+// const OPEN = { w: 720, h: 463 };
+// const MOBILE_OPEN_H = 430;
 const LOGO_SCALE = 2.05;
 
 const EASE = [0.19, 1, 0.22, 1] as const;
 const boxTransition: Transition = { duration: 0.55, ease: EASE };
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  // MENU DISABLED - restore this state (and delete `const open = false`)
+  // const [open, setOpen] = useState(false);
+  const open = false;
   const [hover, setHover] = useState(false);
-  const [vw, setVw] = useState(1440);
-  const videoRef = useRef<PlayableVideoHandle>(null);
 
-  useEffect(() => {
-    const onResize = () => setVw(window.innerWidth);
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
-  // the menu video only plays on click — stop it when the menu closes
-  useEffect(() => {
-    if (!open) videoRef.current?.pause();
-  }, [open]);
-
-  const mobile = vw < 760;
-  const openW = Math.min(OPEN.w, vw - 24);
-  const openH = mobile ? MOBILE_OPEN_H : OPEN.h;
+  // MENU DISABLED
+  // const [vw, setVw] = useState(1440);
+  // const videoRef = useRef<PlayableVideoHandle>(null);
+  //
+  // useEffect(() => {
+  //   const onResize = () => setVw(window.innerWidth);
+  //   onResize();
+  //   window.addEventListener("resize", onResize);
+  //   return () => window.removeEventListener("resize", onResize);
+  // }, []);
+  //
+  // useEffect(() => {
+  //   const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+  //   window.addEventListener("keydown", onKey);
+  //   return () => window.removeEventListener("keydown", onKey);
+  // }, []);
+  //
+  // // the menu video only plays on click - stop it when the menu closes
+  // useEffect(() => {
+  //   if (!open) videoRef.current?.pause();
+  // }, [open]);
+  //
+  // const mobile = vw < 760;
+  // const openW = Math.min(OPEN.w, vw - 24);
+  // const openH = mobile ? MOBILE_OPEN_H : OPEN.h;
 
   return (
     <nav className="fixed left-1/2 top-[31px] z-50 -translate-x-1/2">
       <motion.div
         className="relative overflow-hidden bg-black"
         initial={false}
-        animate={{
-          width: open ? openW : CLOSED.w,
-          height: open ? openH : CLOSED.h,
-          borderRadius: open ? 20 : 24,
-        }}
+        // MENU DISABLED - original:
+        // animate={{
+        //   width: open ? openW : CLOSED.w,
+        //   height: open ? openH : CLOSED.h,
+        //   borderRadius: open ? 20 : 24,
+        // }}
+        animate={{ width: CLOSED.w, height: CLOSED.h, borderRadius: 24 }}
         transition={open ? boxTransition : { duration: 0.45, ease: EASE }}
         style={{
           boxShadow:
@@ -71,7 +86,7 @@ export default function Navbar() {
       >
         {/* ---------- Logo: one instance, scales between states ---------- */}
         <motion.a
-          href="#"
+          href="/"
           aria-label="O’wow home"
           className="absolute left-6 top-[15.5px] z-10 block"
           style={{ originX: 0, originY: 0 }}
@@ -91,7 +106,8 @@ export default function Navbar() {
           type="button"
           aria-label="Toggle menu"
           aria-expanded={open}
-          onClick={() => setOpen((o) => !o)}
+          // MENU DISABLED - restore to make the toggle work again
+          // onClick={() => setOpen((o) => !o)}
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
           className="absolute right-[21px] top-[14px] z-10 h-6 w-6 cursor-pointer"
@@ -102,13 +118,13 @@ export default function Navbar() {
           <Burger open={open} hover={hover} />
         </motion.button>
 
-        {/* ---------- Menu content (fixed open-size layout, box clips it) ---------- */}
-        <div
+        {/* ---------- Menu content - MENU DISABLED, uncomment to restore ----------
+                <div
           className="absolute left-0 top-0"
           style={{ width: openW, height: openH }}
           aria-hidden={!open}
         >
-          {/* links */}
+          [links]
           <ul className="absolute left-8 top-[112px]">
             {LINKS.map((l, i) => (
               <motion.li
@@ -138,7 +154,7 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* video / image card */}
+          [video / image card]
           {!mobile && (
             <motion.div
               className="absolute left-[368px] top-[110px] h-[190px] w-[320px] overflow-hidden rounded-[6px] bg-neutral-900"
@@ -172,7 +188,7 @@ export default function Navbar() {
             </motion.div>
           )}
 
-          {/* footer */}
+          [footer]
           <motion.div
             className="absolute inset-x-8"
             style={{ top: openH - 85 }}
@@ -199,6 +215,7 @@ export default function Navbar() {
             </div>
           </motion.div>
         </div>
+        ---------- end of disabled menu content ---------- */}
       </motion.div>
     </nav>
   );

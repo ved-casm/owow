@@ -9,9 +9,9 @@ import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 export type PlayableVideoHandle = { pause: () => void };
 
 type Props = {
-  /** H.264 MP4 — plays on every device (fallback) */
+  /** H.264 MP4 - plays on every device (fallback) */
   src: string;
-  /** optional AV1 WebM — smaller, used wherever the browser supports it */
+  /** optional AV1 WebM - smaller, used wherever the browser supports it */
   webm?: string;
   poster?: string;
   className?: string;
@@ -37,9 +37,9 @@ const PlayableVideo = forwardRef<PlayableVideoHandle, Props>(function PlayableVi
     if (v.paused) {
       v.muted = false;
       v.play().catch(() => {
-        // browser refused sound — fall back to muted playback
+        // browser refused sound - fall back to muted playback
         v.muted = true;
-        v.play().catch(() => {});
+        v.play().catch(() => { });
       });
     } else {
       v.pause();
@@ -64,9 +64,8 @@ const PlayableVideo = forwardRef<PlayableVideoHandle, Props>(function PlayableVi
       <button
         type="button"
         aria-label={playing ? "Pause video" : "Play video"}
-        className={`absolute inset-0 grid place-items-center transition-opacity duration-300 ${
-          playing ? "opacity-0 group-hover:opacity-0" : "opacity-100"
-        }`}
+        className={`absolute inset-0 grid place-items-center transition-opacity duration-300 ${playing ? "opacity-0 group-hover:opacity-0" : "opacity-100"
+          }`}
       >
         <DotPlay size={iconSize} />
       </button>
@@ -80,7 +79,7 @@ export default PlayableVideo;
 /**
  * Play triangle built from six small dots (3 · 2 · 1 columns).
  * Geometry measured from the reference: r = 10, columns 32px apart,
- * rows offset by 17.5px — airy, not packed.
+ * rows offset by 17.5px - airy, not packed.
  */
 const DOTS: [number, number][] = [
   [0, 0], [0, 35], [0, 70],
