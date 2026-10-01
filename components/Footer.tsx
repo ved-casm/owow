@@ -72,13 +72,13 @@ export default function Footer() {
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
           <h2 className="font-serif text-[34px] font-normal leading-[1.04] tracking-[-0.04em] sm:text-[40px] lg:text-[clamp(48px,3.6vw,56px)]">
             <Row>
-              Teaching <Chip places={CYCLE_A} delay={0} active={active} />
+              Teaching <Chip places={CYCLE_A} delay={0} speed={[280, 460]} active={active} />
             </Row>
             <Row>
               <Chip places={STATIC_2} active={active} /> machines to see
             </Row>
             <Row>
-              the world, <Chip places={CYCLE_B} delay={260} active={active} /> one
+              the world, <Chip places={CYCLE_B} delay={260} speed={[750, 1100]} active={active} /> one
             </Row>
             <Row>
               <Chip places={STATIC_4} active={active} /> place at a time.
@@ -148,13 +148,17 @@ function Column({
 function Chip({
   places,
   delay = 0,
+  speed = [350, 900],
   active,
 }: {
   places: Place[];
   delay?: number;
+  /** [min, max] ms between swaps */
+  speed?: [number, number];
   active: boolean;
 }) {
   const [i, setI] = useState(0);
+  const [min, max] = speed;
 
   useEffect(() => {
     if (!active || places.length < 2) return;
@@ -162,11 +166,11 @@ function Chip({
     let t: ReturnType<typeof setTimeout>;
     const tick = () => {
       setI((n) => (n + 1) % places.length);
-      t = setTimeout(tick, calm ? 2400 : 350 + Math.random() * 550);
+      t = setTimeout(tick, calm ? 2400 : min + Math.random() * (max - min));
     };
     t = setTimeout(tick, calm ? 2400 : 200 + delay);
     return () => clearTimeout(t);
-  }, [active, delay, places.length]);
+  }, [active, delay, places.length, min, max]);
 
   return (
     <span
