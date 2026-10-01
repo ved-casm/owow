@@ -63,7 +63,7 @@ export default function ManifestoPage() {
       </div>
 
       <p className="mt-20 font-serif text-[clamp(32px,4vw,48px)] leading-[1.1] tracking-[-0.03em]">
-        that’s what <Hl>owow</Hl> is for.
+        that’s what <Hl>o'wow</Hl> is for.
       </p>
     </TextPage>
   );
