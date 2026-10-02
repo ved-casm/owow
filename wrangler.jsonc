@@ -1,0 +1,15 @@
+// Cloudflare Workers deploy config (Workers Builds runs `npx wrangler deploy`).
+// The site is a static export (`next build` -> out/), so the Worker only
+// serves those files; no server code / OpenNext adapter is needed.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "owow-labs",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./out",
+    // /about -> about.html, /about/ -> redirect to /about
+    "html_handling": "auto-trailing-slash",
+    // unknown URLs get out/404.html with a 404 status
+    "not_found_handling": "404-page"
+  }
+}
