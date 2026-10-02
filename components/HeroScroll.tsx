@@ -45,7 +45,7 @@ export default function HeroScroll() {
       v.pause();
       v.currentTime = 0;
     } else if (v.paused) {
-      v.play().catch(() => {});
+      v.play().catch(() => { });
     }
   }, [calm]);
   const { scrollY } = useScroll();
@@ -114,7 +114,7 @@ function HeroContent({ p, calm }: { p: MotionValue<number>; calm: boolean }) {
     <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 pb-6 pt-24 text-center short:pb-3 short:pt-[88px]">
       <Line p={p} calm={calm} range={EXIT.kicker} delay={0.25}>
         {/* frosted, see-through pill (backdrop blur over the video) */}
-        <p className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-5 py-2 text-body font-medium tracking-[-0.01em] text-white backdrop-blur-md short:px-4 short:py-1 short:text-[14px]">
+        <p className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-5 py-2 text-body font-normal tracking-[-0.01em] text-white backdrop-blur-md short:px-4 short:py-1 short:text-[12px]">
           We teach robots to tie the knot.
         </p>
       </Line>

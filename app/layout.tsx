@@ -43,10 +43,37 @@ const jetbrainsMono = localFont({
   src: "../public/fonts/70bc3e132a0a741e-s.p.1409xf.ylxg8g.woff2",
 });
 
+// Absolute base for share-preview URLs (og:image etc). Set NEXT_PUBLIC_SITE_URL
+// to the custom domain once it's live; on Vercel the production domain is
+// picked up automatically.
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000");
+
+const TITLE = "O'WOW - Data Intelligence for Physical AI";
+const DESCRIPTION =
+  "Robots learn from what they’re shown. We know what’s worth showing, then capture, structure, and verify it at global scale.";
+
+// og:image / twitter:image / icons come from the files in app/
+// (opengraph-image.jpg, twitter-image.jpg, icon.svg, apple-icon.png, favicon.ico)
 export const metadata: Metadata = {
-  title: "O'WOW - Data Intelligence for Physical AI",
-  description:
-    "Robots learn from what they’re shown. We know what’s worth showing, then capture, structure, and verify it at global scale.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: {
+    type: "website",
+    siteName: "O'WOW",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

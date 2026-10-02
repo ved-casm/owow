@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import DotMap, { DotMapHeadline } from "./footer/DotMap";
 import RollText from "./RollText";
+import Monogram from "./Monogram";
 import ShimmerLogo from "./ShimmerLogo";
 
 /**
@@ -63,7 +64,8 @@ export default function Footer() {
         <div className="grid gap-x-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center">
           <div>
             {/* same three.js shimmer wordmark as the navbar */}
-            <Link href="/" aria-label="O’WOW home" className="inline-block">
+            <Link href="/" aria-label="O’WOW home" className="inline-flex items-center gap-3">
+              <Monogram size={26} />
               <ShimmerLogo width={90} height={21} base={0.62} />
             </Link>
             <div className="mt-5">
