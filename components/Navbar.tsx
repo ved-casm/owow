@@ -7,6 +7,7 @@ import { useState } from "react";
 // import Countdown from "./Countdown";
 // import PlayableVideo, { type PlayableVideoHandle } from "./PlayableVideo";
 // import RollText from "./RollText";
+import Monogram from "./Monogram";
 import ShimmerLogo from "./ShimmerLogo";
 
 /*
@@ -26,7 +27,8 @@ import ShimmerLogo from "./ShimmerLogo";
 //   "Book a call",
 // ];
 
-const CLOSED = { w: 190, h: 52 };
+// wide pill: monogram left, wordmark centred, menu button right
+const CLOSED = { w: 340, h: 52 };
 // const OPEN = { w: 720, h: 463 };
 // const MOBILE_OPEN_H = 430;
 const LOGO_SCALE = 2.05;
@@ -80,15 +82,21 @@ export default function Navbar() {
         animate={{ width: CLOSED.w, height: CLOSED.h, borderRadius: 24 }}
         transition={open ? boxTransition : { duration: 0.45, ease: EASE }}
         style={{
+          maxWidth: "calc(100vw - 32px)", // never wider than a small phone
           boxShadow:
             "rgba(0,0,0,0.25) 0px 6px 13px 0px, rgba(0,0,0,0.21) 0px 8px 24px 0px, rgba(0,0,0,0.04) 0px -14px 10px 0px",
         }}
       >
-        {/* ---------- Logo: one instance, scales between states ---------- */}
+        {/* ---------- Monogram (left) ---------- */}
+        <span className="absolute left-[15px] top-1/2 z-10 -translate-y-1/2">
+          <Monogram size={24} />
+        </span>
+
+        {/* ---------- Wordmark (centred): one instance, scales between states ---------- */}
         <motion.a
           href="/"
           aria-label="O’wow home"
-          className="absolute left-6 top-[15.5px] z-10 block"
+          className="absolute left-1/2 top-[14.5px] z-10 -ml-[45px] block"
           style={{ originX: 0, originY: 0 }}
           initial={false}
           animate={{
@@ -110,7 +118,7 @@ export default function Navbar() {
           // onClick={() => setOpen((o) => !o)}
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
-          className="absolute right-[21px] top-[14px] z-10 h-6 w-6 cursor-pointer"
+          className="absolute right-[16px] top-[13px] z-10 h-6 w-6 cursor-pointer"
           initial={false}
           animate={{ x: open ? -12 : 0, y: open ? 23 : 0 }}
           transition={open ? boxTransition : { duration: 0.45, ease: EASE }}
