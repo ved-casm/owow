@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# owow-labs
 
-## Getting Started
+OWOW Labs Website: data intelligence for physical AI.
 
-First, run the development server:
+Built with Next.js 16 (App Router), React 19, Tailwind CSS 4, Motion, three.js and Lenis.
+
+## Getting started
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Command         | What it does                     |
+| --------------- | -------------------------------- |
+| `npm run dev`   | Local dev server with hot reload |
+| `npm run build` | Production build                 |
+| `npm run start` | Serve the production build       |
+| `npm run lint`  | ESLint                           |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Pages
 
-## Learn More
+| Route        | File                       |
+| ------------ | -------------------------- |
+| `/`          | `app/page.tsx`             |
+| `/manifesto` | `app/manifesto/page.tsx`   |
+| `/about`     | `app/about/page.tsx`       |
+| `/partners`  | `app/partners/page.tsx`    |
+| `/terms`     | `app/terms/page.tsx`       |
+| `/privacy`   | `app/privacy/page.tsx`     |
 
-To learn more about Next.js, take a look at the following resources:
+Legal copy lives in `lib/legal/`. Open TODOs (refund policy, registered
+address, cookie tools, etc.) are listed at the top of those files and must be
+filled in before publishing.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project layout
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `app/`: routes, global styles and design tokens (`globals.css`), icons and
+  the share-preview image (`opengraph-image.jpg`)
+- `components/`: navbar, hero, footer (`footer/DotMap.tsx`), text-page
+  building blocks (`Prose.tsx`, `Legal.tsx`)
+- `lib/`: map data, places, legal copy
+- `public/`: fonts, videos (AV1 WebM + H.264 MP4), images (AVIF + JPEG),
+  brand files in `public/brand/`
 
-## Deploy on Vercel
+## Environment variables
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Name                   | Purpose                                                                    |
+| ---------------------- | -------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL` | Live domain, e.g. `https://owowlabs.ai`. Used for share-preview image URLs |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+On Vercel the production domain is used automatically if this is not set.
+
+## Fonts
+
+`public/fonts/` contains Exposure and Suisse Intl. These are commercial
+typefaces (the Exposure file is a trial build). A licence is required before
+the site is used publicly.
